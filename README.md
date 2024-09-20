@@ -234,3 +234,106 @@ let MONTH_REGEXP = /^(\d{4,})-(\d\d)$/;
 
 let TIME_REGEXP = /^(\d\d):(\d\d)(?::(\d\d)(\.\d{1,3})?)?$/;
 ```
+
+## 2. Regular Expression (Regex) Syntax
+
+A Regular Expression (or Regex) is a pattern (or filter) that describes a set of strings that matches the pattern. In other words, a regex accepts a certain set of strings and rejects the rest.
+
+A regex consists of a sequence of characters, metacharacters (such as ., \d, \D, \s, \S, \w, \W) and operators (such as +, \\\*, ?, |, ^). They are constructed by combining many smaller sub-expressions.
+
+### 2.1 Matching a Single Character
+
+---
+
+The fundamental building blocks of a regex are patterns that match a single character. Most characters, including all letters (a-z and A-Z) and digits (0-9), match itself. For example, the regex x matches substring "x"; z matches "z"; and 9 matches "9".
+
+Non-alphanumeric characters without special meaning in regex also matches itself. For example, = matches "="; @ matches "@".
+
+### 2.2 Regex Special Characters and Escape Sequences
+
+---
+
+**Regex's Special Characters**
+These characters have special meaning in regex (I will discuss in detail in the later sections):
+
+- metacharacter: dot (.)
+- bracket list: [ ]
+- position anchors: ^, $
+- occurrence indicators: +, \\\*, ?, { }
+- parentheses: ( )
+- or: |
+- escape and metacharacter: backslash (\\)
+
+**Escape Sequences**
+The characters listed above have special meanings in regex. To match these characters, we need to prepend it with a backslash (\), known as escape sequence. For examples, \\+ matches "+"; \\[ matches "["; and \\. matches ".".
+
+Regex also recognizes common escape sequences such as \n for newline, \t for tab, \r for carriage-return, \nnn for a up to 3-digit octal number, \xhh for a two-digit hex code, \uhhhh for a 4-digit Unicode, \uhhhhhhhh for a 8-digit Unicode.
+
+**EXAMPLE**
+
+```js
+// come back fill up wih code
+```
+
+### 2.3 Matching a Sequence of Characters (String or Text)
+
+---
+
+**Sub-Expressions**  
+A regex is constructed by combining many smaller sub-expressions or atoms. For example, the regex Friday matches the string "Friday". The matching, by default, is case-sensitive, but can be set to case-insensitive via modifier.
+
+### 2.4 OR (|) Operator
+
+---
+
+You can provide alternatives using the "OR" operator, denoted by a vertical bar '|'. For example, the regex four|for|floor|4 accepts strings "four", "for", "floor" or "4".
+
+### 2.5 Bracket List (Character Class) [...], [^...], [.-.]
+
+---
+
+A bracket expression is a list of characters enclosed by [ ], also called character class. It matches ANY ONE character in the list. However, if the first character of the list is the caret (^), then it matches ANY ONE character NOT in the list. For example, the regex [02468] matches a single digit 0, 2, 4, 6, or 8; the regex [^02468] matches any single character other than 0, 2, 4, 6, or 8.
+
+Instead of listing all characters, you could use a range expression inside the bracket. A range expression consists of two characters separated by a hyphen (-). It matches any single character that sorts between the two characters, inclusive. For example, [a-d] is the same as [abcd]. You could include a caret (^) in front of the range to invert the matching. For example, [^a-d] is equivalent to [^abcd].
+
+Most of the special regex characters lose their meaning inside bracket list, and can be used as they are; except ^, -, ] or \\.
+
+- To include a ], place it first in the list, or use escape \\].
+- To include a ^, place it anywhere but first, or use escape \\^.
+- To include a - place it last, or use escape \\-.
+- To include a \\, use escape \\\\.
+- No escape needed for the other characters such as ., +, \*, ?, (, ), {, }, and etc, inside the bracket list
+- You can also include metacharacters (to be explained in the next section), such as \w, \W, \d, \D, \s, \S inside the bracket list.
+
+### 2.6 Metacharacters ., \w, \W, \d, \D, \s, \S
+
+---
+
+A metacharacter is a symbol with a special meaning inside a regex.
+
+- The metacharacter dot (.) matches any single character except newline \n (same as [^\n]). For example, ... matches any 3 characters (including alphabets, numbers, whitespaces, but except newline); the.. matches "there", "these", "the ", and so on.
+- \w (word character) matches any single letter, number or underscore (same as [a-zA-Z0-9_]). The uppercase counterpart \W (non-word-character) matches any single character that doesn't match by \w (same as [^a-zA-Z0-9_]).
+- In regex, the uppercase metacharacter is always the inverse of the lowercase counterpart.
+- \d (digit) matches any single digit (same as [0-9]). The uppercase counterpart \D (non-digit) matches any single character that is not a digit (same as [^0-9]).
+- \s (space) matches any single whitespace (same as [ \t\n\r\f], blank, tab, newline, carriage-return and form-feed). The uppercase counterpart \S (non-space) matches any single character that doesn't match by \s (same as [^ \t\n\r\f]).
+
+           \s\s       # Matches two spaces
+           \S\S\s     # Two non-spaces followed by a space
+           \s+        # One or more space
+           \S\s\S+    # Two words (non-spaces) separated by a space
+
+### 2.7 Backslash (\\) and Regex Escape Sequences
+
+---
+
+Regex uses backslash (\) for two purposes:
+
+1. for metacharacters such as \d (digit), \D (non-digit), \s (space), \S (non-space), \w (word), \W (non-word).
+2. to escape special regex characters, e.g., \. for ., \+ for +, \* for \*, \? for ?. You also need to write \\ for \ in regex to avoid ambiguity.
+3. Regex also recognizes \n for newline, \t for tab, etc.
+
+Take note that in many programming languages (C, Java, Python), backslash (\) is also used for escape sequences in string, e.g., "\n" for newline, "\t" for tab, and you also need to write "\\" for \\. Consequently, to write regex pattern \\ (which matches one \) in these languages, you need to write "\\\\" (two levels of escape!!!). Similarly, you need to write "\\d" for regex metacharacter \d. This is cumbersome and error-prone!!!
+
+### 2.8 Modifiers
+
+---
